@@ -23,3 +23,16 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 debug.log*
+
+# Environment
+.env
+.env.local
+
+# Misc
+.DS_Store
+.pyc
+*.swp
+*.bak
+
+# Jest
+coverage/

@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
+import { connectToDatabase } from "./config/database";
 
 // Load environment variables from .env file in development
 if (process.env.NODE_ENV !== "production") {
@@ -39,23 +39,4 @@ server.listen(PORT, () => {
 });
 
 // Connect to MongoDB
-const dbURI = process.env.MONGO_URL;
-if (!dbURI) {
-  throw new Error("MONGO_URL is not defined in the environment variables");
-}
-
-mongoose.Promise = Promise;
-mongoose.connect(dbURI);
-
-mongoose.connection.on("connected", () => {
-  console.log("Mongoose connected to DB");
-});
-
-mongoose.connection.on("error", (err) => {
-  console.error(`MongoDB connection error: ${err}`);
-  process.exit(-1);
-});
-
-mongoose.connection.on("disconnected", () => {
-  console.log("Mongoose disconnected from DB");
-});
+connectToDatabase();

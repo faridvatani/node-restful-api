@@ -1,0 +1,21 @@
+{
+  "name": "node-restful-api",
+  "version": "1.0.0",
+  "description": "A RESTful API built with Node.js, Express, TypeScript, and MongoDB, featuring authentication and robust error handling.",
+  "main": "index.ts",
+  "repository": "git@github.com:faridvatani/node-restful-api.git",
+  "author": "Farid Vatani",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "nodemon --exec ts-node src/index.ts",
+    "build": "tsc",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}

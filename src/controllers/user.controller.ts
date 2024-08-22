@@ -4,21 +4,22 @@ import {
   deleteUser,
   getUserByEmail,
   getUserById,
-  getUsers,
+  getAllUsers,
   updateUser,
+  getUserByUsername,
 } from "../services/user.service";
 import { hashPassword, random, sendResponse } from "../helpers";
 
-export const getUsersController = async (
+export const getAllUsersController = async (
   _req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const users = await getUsers();
+    const users = await getAllUsers();
     sendResponse(res, 200, users);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -44,7 +45,7 @@ export const createUserController = async (
   next: NextFunction,
 ) => {
   try {
-    const { firstName, lastName, email, password, username } = req.body;
+    const { firstname, lastname, email, password, username } = req.body;
 
     if (!email || !password || !username) {
       return sendResponse(res, 400, {
@@ -58,12 +59,20 @@ export const createUserController = async (
       return sendResponse(res, 400, { message: "User already exists" });
     }
 
+    const existingUserByUsername = await getUserByUsername(username);
+
+    if (existingUserByUsername) {
+      return sendResponse(res, 400, {
+        message: "User with this username already exists",
+      });
+    }
+
     const salt = random();
     const hashedPassword = await hashPassword(password, salt);
 
     const user = await createUser({
-      firstName,
-      lastName,
+      firstname,
+      lastname,
       email,
       username,
       authentication: {
@@ -100,10 +109,24 @@ export const updateUserController = async (
   next: NextFunction,
 ) => {
   try {
-    const user = await updateUser(req.params.id, req.body);
+    const { firstName, lastName, username } = req.body;
+
+    if (!username) {
+      return sendResponse(res, 400, {
+        message: "Username is required",
+      });
+    }
+
+    const user = await updateUser(req.params.id, {
+      firstName,
+      lastName,
+      username,
+    });
+
     if (!user) {
       return sendResponse(res, 404, { message: "User not found" });
     }
+
     return sendResponse(res, 200, { user, message: "User updated" });
   } catch (error) {
     return next(error);
@@ -120,7 +143,7 @@ export const deleteUserController = async (
     if (!user) {
       return sendResponse(res, 404, { message: "User not found" });
     }
-    return sendResponse(res, 204, { message: "User deleted" });
+    return sendResponse(res, 200, { message: "User deleted" });
   } catch (error) {
     return next(error);
   }

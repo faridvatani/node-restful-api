@@ -3,6 +3,7 @@ import {
   getUserByEmail,
   createUser,
   getUserBySessionToken,
+  getUserByUsername,
 } from "../services/user.service";
 import {
   comparePassword,
@@ -69,7 +70,7 @@ export const register = async (
   next: NextFunction,
 ) => {
   try {
-    const { firstName, lastName, email, password, username } = req.body;
+    const { firstname, lastname, email, password, username } = req.body;
 
     if (!email || !password || !username) {
       return sendResponse(res, 400, {
@@ -83,12 +84,20 @@ export const register = async (
       return sendResponse(res, 400, { message: "User already exists" });
     }
 
+    const existingUserByUsername = await getUserByUsername(username);
+
+    if (existingUserByUsername) {
+      return sendResponse(res, 400, {
+        message: "User with this username already exists",
+      });
+    }
+
     const salt = random();
     const hashedPassword = await hashPassword(password, salt);
 
     const user = await createUser({
-      firstName,
-      lastName,
+      firstname,
+      lastname,
       email,
       username,
       authentication: {

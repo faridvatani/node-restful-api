@@ -1,11 +1,17 @@
 import { User, IUser } from "../models/user.model";
 
-export const getUsers = async (): Promise<IUser[]> => {
+export const getAllUsers = async (): Promise<IUser[]> => {
   return await User.find();
 };
 
 export const getUserByEmail = async (email: string) => {
   return await User.findOne({ email }).select(
+    "+authentication.salt +authentication.password",
+  );
+};
+
+export const getUserByUsername = async (username: string) => {
+  return await User.findOne({ username }).select(
     "+authentication.salt +authentication.password",
   );
 };
@@ -26,13 +32,19 @@ export const createUser = async (
 };
 
 export const getUserById = async (id: string): Promise<IUser | null> => {
-  return await User.findById(id);
+  return await User.findById(id).select(
+    "+authentication.salt +authentication.password",
+  );
 };
 
 export const updateUser = async (id: string, values: Record<string, any>) => {
-  return await User.findByIdAndUpdate(id, values);
+  return await User.findByIdAndUpdate(id, values).select(
+    "+authentication.salt +authentication.password",
+  );
 };
 
 export const deleteUser = async (id: string): Promise<IUser | null> => {
-  return await User.findByIdAndDelete(id);
+  return await User.findByIdAndDelete(id).select(
+    "+authentication.salt +authentication.password",
+  );
 };

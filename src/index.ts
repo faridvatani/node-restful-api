@@ -6,6 +6,7 @@ import compression from "compression";
 import cors from "cors";
 import dotenv from "dotenv";
 import { connectToDatabase } from "./config/database";
+import router from "./routes";
 
 // Load environment variables from .env file in development
 if (process.env.NODE_ENV !== "production") {
@@ -40,3 +41,6 @@ server.listen(PORT, () => {
 
 // Connect to MongoDB
 connectToDatabase();
+
+// Mount the router
+app.use("/api", router);

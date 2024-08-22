@@ -7,7 +7,7 @@ import {
   getUsers,
   updateUser,
 } from "../services/user.service";
-import { authentication, random, sendResponse } from "helpers";
+import { hashPassword, random, sendResponse } from "../helpers";
 
 export const getUsersController = async (
   _req: Request,
@@ -44,7 +44,7 @@ export const createUserController = async (
   next: NextFunction,
 ) => {
   try {
-    const { email, password, username } = req.body;
+    const { firstName, lastName, email, password, username } = req.body;
 
     if (!email || !password || !username) {
       return sendResponse(res, 400, {
@@ -59,12 +59,16 @@ export const createUserController = async (
     }
 
     const salt = random();
+    const hashedPassword = await hashPassword(password, salt);
+
     const user = await createUser({
+      firstName,
+      lastName,
       email,
       username,
       authentication: {
         salt,
-        password: authentication(password, salt),
+        password: hashedPassword,
       },
     });
 

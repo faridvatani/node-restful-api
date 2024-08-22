@@ -13,22 +13,16 @@ if (!dbURI) {
 mongoose.Promise = global.Promise;
 
 export const connectToDatabase = async () => {
-  const [error] = await safeAssign(mongoose.connect(dbURI));
-
-  if (error) {
-    console.error("Error connecting to MongoDB:", error);
-    process.exit(1); // Exit process with failure
-  } else {
-    console.log("Connected to MongoDB");
-  }
+  await safeAssign(mongoose.connect(dbURI));
 };
 
 mongoose.connection.on("connected", () => {
-  console.log("Mongoose connected to DB");
+  console.log("Successfully connected to MongoDB");
 });
 
 mongoose.connection.on("error", (err) => {
   console.error(`MongoDB connection error: ${err}`);
+  process.exit(1);
 });
 
 mongoose.connection.on("disconnected", () => {

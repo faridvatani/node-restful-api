@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { Response } from "express";
 
 const secret = process.env.SECRET || "secret";
 
@@ -11,4 +12,8 @@ export const authentication = (password: string, salt: string): string => {
     .createHmac("sha256", [salt, password].join("/"))
     .update(secret)
     .digest("hex");
+};
+
+export const sendResponse = (res: Response, statusCode: number, data: any) => {
+  res.status(statusCode).json(data);
 };

@@ -14,7 +14,7 @@ export const getUserBySessionToken = async (
   return await User.findOne({ "authentication.sessionToken": sessionToken });
 };
 
-export const createUser = async (userData: Partial<IUser>): Promise<IUser> => {
+export const createUser = async (userData: Record<string, any>): Promise<IUser> => {
   const user = new User(userData);
   return await user.save();
 };

@@ -23,7 +23,7 @@ You can import the Postman collection from the `postman` directory to test the A
 
 - `POST /api/auth/register`: Register a new user
 - `POST /api/auth/login`: Log in a user
-- `GET /api/auth/logout`: Log out a user
+- `POST /api/auth/logout`: Log out a user
 - `GET /api/users`: Get all users
 - `GET /api/users/:id`: Get a specific user by ID
 - `POST /api/users`: Create a new user
@@ -35,11 +35,11 @@ You can import the Postman collection from the `postman` directory to test the A
 Create a [`.env`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FUsers%2Ffaridvatani%2FDesktop%2Fnode-restful-api%2F.env%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%5D "/Users/faridvatani/Desktop/node-restful-api/.env") file in the root directory and add the following environment variables:
 
 ```
-NODE_ENV=development
-PORT=8080
-CORS_ORIGIN=http://localhost:3000
-MONGO_URL=mongodb://localhost:27017/your-db
-SECRET_KEY=your-secret-key
+NODE_ENV=
+PORT=
+CORS_ORIGIN=
+MONGO_URL=
+SECRET_KEY=
 ```
 
 ## Project Structure

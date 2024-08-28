@@ -35,9 +35,12 @@ export const getUserById = async (id: string): Promise<IUser | null> => {
   return await User.findById(id);
 };
 
-export const updateUser = async (id: string, values: Record<string, any>) => {
-  return await User.findByIdAndUpdate(id, values).select(
-    "+authentication.salt +authentication.password",
+export const updateUser = async (
+  id: string,
+  values: { firstName?: string; lastName?: string },
+) => {
+  return await User.findByIdAndUpdate(id, values, { new: true }).select(
+    "firstName lastName username email",
   );
 };
 

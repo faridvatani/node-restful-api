@@ -12,8 +12,6 @@ export const isOwner = async (
     const { id } = req.params;
     const currentUserId = get(req, "user._id") as string | undefined;
 
-    console.log(id !== currentUserId?.toString());
-
     if (!currentUserId?.toString()) {
       return sendResponse(res, 403, { message: "Unauthorized" });
     }

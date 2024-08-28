@@ -56,7 +56,7 @@ export const login = async (
 
     return sendResponse(res, 200, {
       token,
-      user: { email, userName: user.username },
+      user,
       message: "Login successful",
     });
   } catch (error) {
@@ -70,7 +70,7 @@ export const register = async (
   next: NextFunction,
 ) => {
   try {
-    const { firstname, lastname, email, password, username } = req.body;
+    const { firstName, lastName, email, password, username } = req.body;
 
     if (!email || !password || !username) {
       return sendResponse(res, 400, {
@@ -96,8 +96,8 @@ export const register = async (
     const hashedPassword = await hashPassword(password, salt);
 
     const user = await createUser({
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       email,
       username,
       authentication: {

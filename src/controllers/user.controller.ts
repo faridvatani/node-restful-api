@@ -45,7 +45,7 @@ export const createUserController = async (
   next: NextFunction,
 ) => {
   try {
-    const { firstname, lastname, email, password, username } = req.body;
+    const { firstName, lastName, email, password, username } = req.body;
 
     if (!email || !password || !username) {
       return sendResponse(res, 400, {
@@ -71,8 +71,8 @@ export const createUserController = async (
     const hashedPassword = await hashPassword(password, salt);
 
     const user = await createUser({
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       email,
       username,
       authentication: {
@@ -109,18 +109,11 @@ export const updateUserController = async (
   next: NextFunction,
 ) => {
   try {
-    const { firstName, lastName, username } = req.body;
-
-    if (!username) {
-      return sendResponse(res, 400, {
-        message: "Username is required",
-      });
-    }
+    const { firstName, lastName } = req.body;
 
     const user = await updateUser(req.params.id, {
       firstName,
       lastName,
-      username,
     });
 
     if (!user) {

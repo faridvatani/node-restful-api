@@ -32,9 +32,7 @@ export const createUser = async (
 };
 
 export const getUserById = async (id: string): Promise<IUser | null> => {
-  return await User.findById(id).select(
-    "+authentication.salt +authentication.password",
-  );
+  return await User.findById(id);
 };
 
 export const updateUser = async (id: string, values: Record<string, any>) => {
